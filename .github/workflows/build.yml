@@ -1,0 +1,48 @@
+name: Build Image 
+
+on:
+  push:
+    branches: [ "main" ]
+    #paths: [ "src/**", "compose-prod.yml", "Dockerfile", "mkdocs.yml"]
+
+# https://docs.github.com/fr/enterprise-cloud@latest/actions/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables#default-environment-variables
+env:
+  PROJECT_IMAGE: ghcr.io/${{ github.repository }}:latest
+
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build Docker image
+      run: |
+        set -x
+
+        echo "Construction de l'image"
+        docker image build -t ${{ env.PROJECT_IMAGE }} -f Dockerfile.mkdocs  .
+        # docker compose -f compose-prod.yml build
+
+    - name: Push
+      run: |
+        echo "Docker login"
+        echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        echo "Imahge push"
+        docker image push ${{ env.PROJECT_IMAGE }}
+
+  deploy:
+    runs-on: deploy-49-100
+    permissions:
+      packages: write
+      contents: read
+    steps:
+    - name: Push
+      run: |
+        echo "Docker login"
+        echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
