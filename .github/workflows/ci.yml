@@ -2,14 +2,13 @@ name: Build and Deploy
 
 on:
   push:
-    paths:
-      - 'Dockerfile.*'
-      - 'public/**'
-      - '.github/workflows/**'
+    #paths:
+     # - 'Dockerfile.*'
+     # - 'public/**'
+     # - '.github/workflows/**'
      # - '.gitlab-ci.yml'
     branches:
       - Main
-      - dev
 
 env:
   WEBSERVER: mkdocs
