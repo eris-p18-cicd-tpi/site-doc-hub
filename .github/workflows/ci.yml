@@ -30,8 +30,8 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ secret.CI_DEPLOY_USER }}
+          password: ${{ secret.CI_DEPLOY_PASSWORD }}
 
       - name: Build Docker image
         run: docker build -t $PROJECT_IMAGE -f Dockerfile.${WEBSERVER} .
