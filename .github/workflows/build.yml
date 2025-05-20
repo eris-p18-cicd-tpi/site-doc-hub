@@ -2,7 +2,7 @@ name: Build Image
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "Main" ]
     #paths: [ "src/**", "compose-prod.yml", "Dockerfile", "mkdocs.yml"]
 
 # https://docs.github.com/fr/enterprise-cloud@latest/actions/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables#default-environment-variables
